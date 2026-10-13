@@ -1,0 +1,93 @@
+# =============================================================================
+# 三个应用分别一个容器 + 一个网关，演示"独立构建、独立部署、独立回滚"。
+#
+#   docker compose -f deploy/docker-compose.yml up --build
+#   open http://localhost:8080
+#
+# 想验证「换环境不用重新构建」：
+#   1. 先 up 起来，浏览器打开 http://localhost:8080
+#   2. 改下面 main 服务里的 MFE_ISOLATION 为 none，只重启 main：
+#        docker compose -f deploy/docker-compose.yml up -d --no-build main
+#   3. 刷新页面，隔离模式变了 —— 但镜像一个字节都没变
+# =============================================================================
+
+name: micro-frontend-lab
+
+services:
+  # ------------------------------ 子应用 A ------------------------------
+  sub-vue:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        APP: sub-vue
+    image: mfe-sub-vue:local
+    expose:
+      - '80'
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # ------------------------------ 子应用 B ------------------------------
+  sub-react:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        APP: sub-react
+    image: mfe-sub-react:local
+    expose:
+      - '80'
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # ------------------------------- 主应用 -------------------------------
+  main:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        APP: main
+    image: mfe-main:local
+    expose:
+      - '80'
+    restart: unless-stopped
+    # 这些环境变量在容器启动时被 entrypoint.sh 写进 runtime-config.js。
+    # 镜像内容不变，改这里就能切环境 —— 这就是"构建一次，多环境部署"。
+    environment:
+      MFE_ENV: production
+      MFE_APP_TITLE: 微前端实验室
+      MFE_ISOLATION: strict
+      MFE_REGISTRY_URL: /apps.json
+      SUB_VUE_ENTRY: /sub-vue/
+      SUB_REACT_ENTRY: /sub-react/
+    depends_on:
+      - sub-vue
+      - sub-react
+    healthcheck:
+      test: ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1/']
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # -------------------------------- 网关 --------------------------------
+  # 只做路径分发，把三个服务拼成一个域名。
+  # 换成一个云厂商的 ALB / Ingress 也是同样的配置思路。
+  gateway:
+    image: nginx:1.27-alpine
+    ports:
+      - '8080:80'
+    volumes:
+      - ./gateway.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - main
+      - sub-vue
+      - sub-react
+    restart: unless-stopped

@@ -1,0 +1,15 @@
+{
+  "name": "@mfe/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "主应用与子应用共享的通信协议常量（事件名 / 全局状态字段 / 隔离模式枚举）",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ]
+}

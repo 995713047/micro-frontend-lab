@@ -1,0 +1,163 @@
+/* ============================================================================
+ * 子应用 A 的样式。
+ *
+ * ⚠️ 这里的 .mfe-lab-* 是【故意】起的通用类名，子应用 B 里有一模一样的类名，
+ *    用来在「样式隔离实验室」里演示污染。真实项目不要这么干。
+ *
+ * 同时故意给 body 设了背景色，用来演示：
+ *   - 无隔离：直接改掉主应用背景
+ *   - experimental：前缀管不住 body，依然污染
+ *   - strict：Shadow DOM 里没有 body，这条规则自然失效
+ * ========================================================================== */
+
+body {
+  background: #eefbf4;
+}
+
+.mfe-lab-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #2f855a;
+  margin: 0 0 8px;
+}
+
+.mfe-lab-card {
+  border: 2px solid #41b883;
+  border-radius: 10px;
+  background: #eafaf1;
+  color: #14532d;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.mfe-lab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+  background: #41b883;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.mfe-lab-btn:hover {
+  filter: brightness(0.94);
+}
+
+.mfe-lab-btn--ghost {
+  background: transparent;
+  border: 1px solid #41b883;
+  color: #2f855a;
+}
+
+/* ============================================================================
+ * 以下是子应用自己的布局样式，用 .sv- 前缀，避免和演示用的通用类名混在一起
+ * ========================================================================== */
+
+.sv-root {
+  padding: 16px 18px 20px;
+  font-size: 13px;
+  color: #14532d;
+  background: #f7fdfa;
+}
+
+.sv-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.sv-tabs {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #cbe9dc;
+  margin-bottom: 14px;
+}
+
+.sv-tab {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: #4b7d64;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.sv-tab.is-active {
+  color: #2f855a;
+  font-weight: 700;
+  border-bottom-color: #41b883;
+}
+
+.sv-kv {
+  display: grid;
+  grid-template-columns: 116px 1fr;
+  gap: 5px 10px;
+  font-size: 12.5px;
+  margin-bottom: 12px;
+}
+
+.sv-kv__key {
+  color: #4b7d64;
+}
+
+.sv-kv__val {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  word-break: break-all;
+}
+
+.sv-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sv-input {
+  flex: 1;
+  min-width: 160px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #b8e0cd;
+  background: #ffffff;
+  color: #14532d;
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.sv-log {
+  max-height: 130px;
+  overflow-y: auto;
+  font-size: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.sv-log__row {
+  padding: 3px 0;
+  border-bottom: 1px dashed #d7ede3;
+}
+
+.sv-pill {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #d9f2e6;
+  color: #2f855a;
+}
+
+.sv-pill--warn {
+  background: #fdf0d5;
+  color: #92610b;
+}

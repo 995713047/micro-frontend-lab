@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>sub-vue · 子应用 A</title>
+  </head>
+  <body>
+    <!--
+      这个挂载点会被 html-webpack-plugin 一起产出，
+      qiankun 把整份 HTML 注入主应用容器后，子应用再 mount 到这个节点上。
+      独立访问（不走 qiankun）时同样用它。
+    -->
+    <div id="sub-vue-root"></div>
+  </body>
+</html>

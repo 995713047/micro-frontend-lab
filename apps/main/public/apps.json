@@ -1,0 +1,26 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-01-01T00:00:00.000Z",
+  "apps": [
+    {
+      "name": "sub-vue",
+      "title": "子应用 A · Vue3",
+      "entry": "http://localhost:8081/",
+      "route": "/sub-vue",
+      "color": "#41b883",
+      "stack": "Vue 3 + webpack5 + element-plus",
+      "owner": "team-vue",
+      "activeRule": "/sub-vue"
+    },
+    {
+      "name": "sub-react",
+      "title": "子应用 B · React18",
+      "entry": "http://localhost:8082/",
+      "route": "/sub-react",
+      "color": "#61dafb",
+      "stack": "React 18 + webpack5",
+      "owner": "team-react",
+      "activeRule": "/sub-react"
+    }
+  ]
+}

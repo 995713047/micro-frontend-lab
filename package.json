@@ -1,0 +1,36 @@
+{
+  "name": "micro-frontend-lab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "微前端实验室：qiankun 主应用 + 2 个子应用，完整覆盖样式隔离 / 通信 / 独立部署",
+  "keywords": [
+    "micro-frontend",
+    "qiankun",
+    "vue3",
+    "react18",
+    "style-isolation",
+    "shadow-dom",
+    "monorepo"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "dev:main": "npm run dev --workspace @mfe/main",
+    "dev:vue": "npm run dev --workspace @mfe/sub-vue",
+    "dev:react": "npm run dev --workspace @mfe/sub-react",
+    "build": "npm run build:subs && npm run build:main",
+    "build:main": "npm run build --workspace @mfe/main",
+    "build:subs": "npm run build --workspace @mfe/sub-vue && npm run build --workspace @mfe/sub-react",
+    "serve": "node scripts/serve.mjs",
+    "verify": "node scripts/verify.mjs",
+    "clean": "node scripts/clean.mjs"
+  }
+}

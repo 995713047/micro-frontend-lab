@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>微前端实验室 · 主应用</title>
+    <meta
+      name="description"
+      content="qiankun 微前端实验室：主应用 + 2 个子应用，演示样式隔离、应用通信与独立部署"
+    />
+    <!--
+      运行时配置。
+      注意它必须是「同步的普通脚本」且位于应用入口之前：
+      容器化部署时 entrypoint.sh 会用环境变量重新生成这个文件，
+      从而做到「构建一次，多环境部署」，不需要为每个环境重新打包。
+    -->
+    <script src="/runtime-config.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
